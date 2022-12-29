@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { createBill, getBills, getBill } = require('../controllers/billController');
+const { createBill, getBills, getBill, updateBill, deleteBill } = require('../controllers/billController');
 
 
 router.route('/')
@@ -9,6 +9,8 @@ router.route('/')
 
 router.route('/:billId')
     .get(getBill)
+    .put(updateBill)
+    .delete(deleteBill)
 
 
 module.exports = router

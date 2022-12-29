@@ -7,7 +7,6 @@ const prisma = new PrismaClient()
 //@route    POST /api/bills
 //@access   Public
 const createBill = asyncHandler(async (req, res) => {
-
     //Default bill creation will have, to later be updated by users in the Frontend
     /*
     {
@@ -16,7 +15,6 @@ const createBill = asyncHandler(async (req, res) => {
         amount: 0
     }
     */
-
     const date = new Date()
     const options = { year: 'numeric', month: 'long', day: 'numeric' }
     const name = `Bill for ${date.toLocaleDateString('en-US', options)}`
@@ -80,8 +78,7 @@ const updateBill = asyncHandler(async (req, res) => {
         where: {
             id: billId,
         },
-
-
+        data: req.body
     })
 
     if (!bill) {
@@ -92,9 +89,32 @@ const updateBill = asyncHandler(async (req, res) => {
     res.status(200).json(bill)
 })
 
+//@desc     Delete one bill
+//@route    DELETE /api/bills/:billId
+//@access   Public
+const deleteBill = asyncHandler(async (req, res) => {
+
+    const billId = req.params.billId
+
+    const bill = await prisma.bill.delete({
+        where: {
+            id: billId,
+        }
+    })
+
+    if (!bill) {
+        res.status(404)
+        throw new Error('bill not found')
+    }
+
+    res.status(204).json({ 'message': 'bill deleted successfully' })
+})
+
 
 module.exports = {
     createBill,
     getBills,
-    getBill
+    getBill,
+    updateBill,
+    deleteBill
 }
