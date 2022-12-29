@@ -8,9 +8,9 @@ const app = express()
 app.use(express.json())
 
 // API Routes
-// Event Routes
-const eventRoutes = require('./routes/eventRoutes')
-app.use('/api/events', eventRoutes)
+// Bill Routes
+const billRoutes = require('./routes/billRoutes')
+app.use('/api/bills', billRoutes)
 
 app.use(errorHandler)
 app.listen(PORT, () => console.log(`Server started on ${PORT}`))
