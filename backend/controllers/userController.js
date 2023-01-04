@@ -55,8 +55,30 @@ const getUsers = asyncHandler(async (req, res) => {
 
 })
 
+//@desc     Get all users related to bill
+//@route    GET /api/bills/:billId/users/:userId
+//@access   Public
+const deleteUser = asyncHandler(async (req, res) => {
+
+    const billId = req.params.billId
+    const userId = req.params.userId
+
+    const bill = await prisma.bill.findFirst({ where: { id: billId } })
+
+    if (!bill) {
+        res.status(404)
+        throw new Error('Bill not found')
+    }
+
+    await prisma.user.delete({ where: { id: userId } })
+
+    res.status(204).json({ 'message': 'user deleted' })
+
+})
+
 
 module.exports = {
     createUser,
-    getUsers
+    getUsers,
+    deleteUser
 }

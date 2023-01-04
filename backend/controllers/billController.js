@@ -56,6 +56,9 @@ const getBill = asyncHandler(async (req, res) => {
     const bill = await prisma.bill.findUnique({
         where: {
             id: billId,
+        }, include: {
+            items: true,
+            users: true
         }
     })
 

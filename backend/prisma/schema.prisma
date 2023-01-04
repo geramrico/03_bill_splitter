@@ -26,13 +26,16 @@ model Item {
   name     String
   quantity Int
   price    Int
-  bill     Bill   @relation(fields: [billId], references: [id])
+  bill     Bill   @relation(fields: [billId], references: [id], onDelete: Cascade)
   billId   String @db.ObjectId
+  users    User[]
 }
 
 model User {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
   name   String
-  bill   Bill   @relation(fields: [billId], references: [id])
-  billId String @db.ObjectId
+  bill   Bill    @relation(fields: [billId], references: [id], onDelete: Cascade)
+  billId String  @db.ObjectId
+  Item   Item?   @relation(fields: [itemId], references: [id])
+  itemId String? @db.ObjectId
 }
